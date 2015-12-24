@@ -22,20 +22,29 @@ public class Inteldriverfix {
      */
     public static void main(String[] args) {
         // TODO code application logic here
+        if(check())
+            System.out.println("YES");
+        
+    }
+    public static boolean check(){
+        boolean dekh = false;
         try{
-            char c = '"';
-            Process p=Runtime.getRuntime().exec("cmd /c cd C:\\ \n devcon64.exe status "+c+"PCI\\VEN_8086&DEV_0A16&SUBSYS_2212103C&REV_0B"+c); 
-             
+            
+            ProcessBuilder builder = new ProcessBuilder(
+            "cmd.exe", "/c", "D:\\IShortcuts\\Intelfix\\check.bat");
+            builder.redirectErrorStream(true);
+            Process p = builder.start(); 
             BufferedReader reader=new BufferedReader(new InputStreamReader(p.getInputStream()));
             String s,a="";  
             while((s=reader.readLine())!=null)
                   a+=s+"\n";
             System.out.println(a);
-           // if(a.contains("Driver is Running"))
-             //   dekh = true;
+            if(a.contains("Driver is running"))
+                dekh = true;
             }
-        catch(HeadlessException | IOException e){ }
-        
+        catch(HeadlessException | IOException e){ 
+        System.out.println(e);
+        }
+        return dekh;
     }
-    
 }
